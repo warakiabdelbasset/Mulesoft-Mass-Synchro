@@ -1,0 +1,36 @@
+{
+  "configs": [
+    "global.xml",
+    "implementation/get-account-bulk.xml",
+    "salesforce-france-sapi.xml"
+  ],
+  "secureProperties": [
+    "mule.encryptionkey",
+    "anypoint.platform.client_id",
+    "anypoint.platform.client_secret"
+  ],
+  "redeploymentEnabled": true,
+  "name": "35ae33ae-a09b-40c9-b49b-c178f9e49be8:Salesforce-France-SAPI:1.0.5",
+  "minMuleVersion": "4.5.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "log4j2.xml",
+        "global.xml",
+        "application-types.xml",
+        "properties/local.yaml",
+        "cert/00Dd2000000Uavh.jks",
+        "cert/certifmulesoft.cer",
+        "implementation/get-account-bulk.xml",
+        "salesforce-france-sapi.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

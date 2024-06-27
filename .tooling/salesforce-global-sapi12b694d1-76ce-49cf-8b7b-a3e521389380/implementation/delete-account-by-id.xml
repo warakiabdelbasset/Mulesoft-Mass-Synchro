@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="delete-account-by-idFlow" doc:id="07b9d596-b3a0-462f-96fc-3ee3c59f5106" >
+		<set-variable value="#[attributes.uriParams[0]]" doc:name="Account Id" doc:id="13eb6981-2aad-42ca-8c99-84502b5836f3" variableName="accountId"/>
+		<salesforce:delete doc:name="Delete" doc:id="132f8755-8ac0-455c-b7fb-274f306016ed" config-ref="Salesforce_SmarkGlobal">
+			<salesforce:ids ><![CDATA[#[[vars.accountId]]]]></salesforce:ids>
+		</salesforce:delete>
+		<choice doc:name="Choice" doc:id="9302ee47-495e-4d0e-a274-5ee249131e0f" >
+			<when expression="#[payload.items[0].successful or payload.items[0].statusCode == 'ENTITY_IS_DELETED']">
+				<ee:transform doc:name="Transform Message" doc:id="8fbe411e-d1f2-43f9-985d-9a2478b8cadc">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+
+Status : "Record is deleted"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="1f16d10e-dd12-417d-a2e2-640ceefca495" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.items[0].statusCode]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</flow>
+</mule>

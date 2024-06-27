@@ -1,0 +1,514 @@
+{
+  "minMuleVersion": "4.2.0",
+  "extensionModel": {
+    "types": [],
+    "messageSources": [],
+    "functions": [],
+    "configurations": [{
+      "externalLibraryModels": [],
+      "operations": [],
+      "messageSources": [],
+      "name": "config",
+      "description": "",
+      "modelProperties": {},
+      "stereotype": {
+        "parent": {
+          "namespace": "MULE",
+          "type": "MODULE_CONFIG"
+        },
+        "namespace": "SECURE-PROPERTIES",
+        "type": "CONFIG"
+      },
+      "parameterGroupModels": [
+        {
+          "name": "General",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 1
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "displayModel": {"pathModel": {
+                "fileExtensions": [
+                  "yaml",
+                  "properties"
+                ],
+                "acceptsUrls": false,
+                "location": "EMBEDDED",
+                "type": "FILE"
+              }},
+              "semanticTerms": [],
+              "role": "BEHAVIOUR",
+              "description": " The location of the file with the secure configuration properties to use. It may be a location in the classpath or an absolute location. \nThe file location value may also contains references to properties that will only be resolved based on system properties or properties set at deployment time.",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "NOT_SUPPORTED",
+              "fieldValueProviderModels": [],
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "file",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 1
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "semanticTerms": [],
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "SUPPORTED",
+              "fieldValueProviderModels": [],
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "key",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 2
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "semanticTerms": [],
+              "role": "BEHAVIOUR",
+              "defaultValue": false,
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "Boolean"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "fieldValueProviderModels": [],
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "fileLevelEncryption",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 3
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "semanticTerms": [],
+              "role": "BEHAVIOUR",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "fieldValueProviderModels": [],
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "encoding",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 4
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "semanticTerms": [],
+              "role": "BEHAVIOUR",
+              "description": "The identifier of this element used to reference it in other components",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "String"
+              },
+              "required": true,
+              "expressionSupport": "NOT_SUPPORTED",
+              "fieldValueProviderModels": [],
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "name",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 6
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": true
+            },
+            {
+              "semanticTerms": [],
+              "role": "BEHAVIOUR",
+              "description": "Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.",
+              "modelProperties": {
+                "org.mule.runtime.extension.api.property.InfrastructureParameterModelProperty": {"sequence": 4},
+                "org.mule.runtime.extension.api.property.QNameModelProperty": {"value": {
+                  "localPart": "expiration-policy",
+                  "prefix": "mule",
+                  "namespaceURI": "http://www.mulesoft.org/schema/mule/core"
+                }}
+              },
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "typeDsl": {
+                    "allowTopLevelDefinition": false,
+                    "allowInlineDefinition": true
+                  },
+                  "infrastructureType": {},
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "",
+                    "classname": "org.mule.runtime.extension.api.runtime.ExpirationPolicy",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": false,
+                    "genericTypes": [],
+                    "isInterface": true,
+                    "isAbstract": true,
+                    "isMap": false
+                  },
+                  "description": {"value": "Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit."},
+                  "typeId": "org.mule.runtime.extension.api.runtime.ExpirationPolicy"
+                },
+                "type": "Object",
+                "fields": [
+                  {
+                    "annotations": {
+                      "description": {"value": "A scalar time value for the maximum amount of time a dynamic configuration instance should be allowed to be idle before it's considered eligible for expiration"},
+                      "expressionSupport": {"value": "NOT_SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "default": "5",
+                        "classInformation": {
+                          "implementedInterfaces": [],
+                          "parent": "java.lang.Number",
+                          "classname": "java.lang.Long",
+                          "hasDefaultConstructor": false,
+                          "isInstantiable": false,
+                          "isFinal": true,
+                          "genericTypes": [],
+                          "isInterface": false,
+                          "isAbstract": false,
+                          "isMap": false
+                        },
+                        "int": {}
+                      },
+                      "type": "Number"
+                    },
+                    "key": {"name": "maxIdleTime"}
+                  },
+                  {
+                    "annotations": {
+                      "description": {"value": "A time unit that qualifies the maxIdleTime attribute"},
+                      "expressionSupport": {"value": "NOT_SUPPORTED"}
+                    },
+                    "model": {
+                      "annotations": {
+                        "default": "MINUTES",
+                        "enum": {
+                          "values": [
+                            "NANOSECONDS",
+                            "MICROSECONDS",
+                            "MILLISECONDS",
+                            "SECONDS",
+                            "MINUTES",
+                            "HOURS",
+                            "DAYS"
+                          ],
+                          "type": "[Ljava.lang.String;"
+                        }
+                      },
+                      "type": "String"
+                    },
+                    "key": {"name": "timeUnit"}
+                  }
+                ]
+              },
+              "required": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "fieldValueProviderModels": [],
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": true,
+                "allowsReferences": false
+              },
+              "name": "expirationPolicy",
+              "layoutModel": {
+                "password": false,
+                "tabName": "Advanced",
+                "query": false,
+                "text": false,
+                "order": 5
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": false
+        },
+        {
+          "name": "encrypt",
+          "layoutModel": {
+            "password": false,
+            "query": false,
+            "text": false,
+            "order": 2
+          },
+          "description": "",
+          "modelProperties": {},
+          "parameters": [
+            {
+              "semanticTerms": [],
+              "role": "BEHAVIOUR",
+              "defaultValue": "AES",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "java.lang.Enum",
+                    "classname": "com.mulesoft.modules.configuration.properties.api.EncryptionAlgorithm",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": true,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "com.mulesoft.modules.configuration.properties.api.EncryptionAlgorithm",
+                  "enum": {
+                    "values": [
+                      "AES",
+                      "Blowfish",
+                      "DES",
+                      "DESede",
+                      "Camellia",
+                      "CAST5",
+                      "CAST6",
+                      "Noekeon",
+                      "Rijndael",
+                      "SEED",
+                      "Serpent",
+                      "Skipjack",
+                      "TEA",
+                      "Twofish",
+                      "XTEA",
+                      "RC2",
+                      "RC5",
+                      "RC6",
+                      "RSA"
+                    ],
+                    "type": "[Ljava.lang.String;"
+                  }
+                },
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "fieldValueProviderModels": [],
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "algorithm",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 7
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "semanticTerms": [],
+              "role": "BEHAVIOUR",
+              "defaultValue": "CBC",
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "annotations": {
+                  "classInformation": {
+                    "implementedInterfaces": [],
+                    "parent": "java.lang.Enum",
+                    "classname": "com.mulesoft.modules.configuration.properties.api.EncryptionMode",
+                    "hasDefaultConstructor": false,
+                    "isInstantiable": false,
+                    "isFinal": true,
+                    "genericTypes": [],
+                    "isInterface": false,
+                    "isAbstract": false,
+                    "isMap": false
+                  },
+                  "typeId": "com.mulesoft.modules.configuration.properties.api.EncryptionMode",
+                  "enum": {
+                    "values": [
+                      "CBC",
+                      "CFB",
+                      "ECB",
+                      "OFB"
+                    ],
+                    "type": "[Ljava.lang.String;"
+                  }
+                },
+                "type": "String"
+              },
+              "required": false,
+              "expressionSupport": "SUPPORTED",
+              "fieldValueProviderModels": [],
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "mode",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 8
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            },
+            {
+              "displayModel": {
+                "summary": "Use random initial vectors (IVs). In case of decryption, it assumes IV is prepended on the ciphertext.",
+                "displayName": "Use random IVs"
+              },
+              "semanticTerms": [],
+              "role": "BEHAVIOUR",
+              "defaultValue": false,
+              "description": "",
+              "modelProperties": {},
+              "type": {
+                "format": "java",
+                "type": "Boolean"
+              },
+              "required": false,
+              "expressionSupport": "NOT_SUPPORTED",
+              "fieldValueProviderModels": [],
+              "hasDynamicType": false,
+              "isConfigOverride": false,
+              "dslConfiguration": {
+                "allowTopLevelDefinition": false,
+                "allowsInlineDefinition": false,
+                "allowsReferences": false
+              },
+              "name": "useRandomIVs",
+              "layoutModel": {
+                "password": false,
+                "query": false,
+                "text": false,
+                "order": 9
+              },
+              "allowedStereotypeModels": [],
+              "isComponentId": false
+            }
+          ],
+          "exclusiveParametersModels": [],
+          "showInDsl": true
+        }
+      ],
+      "connectionProviders": []
+    }],
+    "artifactCoordinates": {
+      "group id": "com.mulesoft.modules",
+      "artifact id": "mule-secure-configuration-property-module",
+      "version": "1.2.7"
+    },
+    "externalLibraries": [],
+    "description": "Crafted Config Properties Extension",
+    "resources": [],
+    "subTypes": [],
+    "modelProperties": {},
+    "constructs": [],
+    "connectionProviders": [],
+    "version": "1.2.7",
+    "privilegedArtifacts": [],
+    "importedTypes": [],
+    "xmlDsl": {
+      "schemaVersion": "1.2.7",
+      "prefix": "secure-properties",
+      "schemaLocation": "http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd",
+      "namespace": "http://www.mulesoft.org/schema/mule/secure-properties",
+      "xsdFileName": "mule-secure-properties.xsd"
+    },
+    "operations": [],
+    "vendor": "Mulesoft",
+    "name": "Secure Properties",
+    "privilegedPackages": [],
+    "category": "SELECT",
+    "notifications": [],
+    "errors": [],
+    "supportedJavaVersions": [
+      "1.8",
+      "11",
+      "17"
+    ]
+  }
+}

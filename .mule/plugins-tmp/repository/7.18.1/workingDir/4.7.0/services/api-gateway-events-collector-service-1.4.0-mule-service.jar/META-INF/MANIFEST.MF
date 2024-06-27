@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Created-By: Maven JAR Plugin 3.3.0
+Build-Jdk-Spec: 11
+Specification-Title: API Gateway Events Collector Service Implementation
+Specification-Version: 1.4
+Specification-Vendor: MuleSoft, Inc.
+Implementation-Title: API Gateway Events Collector Service Implementatio
+ n
+Implementation-Version: 1.4.0
+Implementation-Vendor: MuleSoft, Inc.
+Automatic-Module-Name: com.mulesoft.anypoint.gw.service.events.collector
+Build-Date: 
+Build-Revision: d4421b6a
+Description: API Gateway Platform
+Dev-List-Email: mule-esb@mulesoft.com
+Git-branch: 1.4.0
+Git-commit-id: d4421b6aa18801fd0a65212bea90594e5bb8176a
+Git-commit-id-describe: 1.4.0-rc5-2-gd4421b6
+Git-commit-time: 2024-02-01T16:48:43+0000
+Git-remote-origin-url: https://github.com/mulesoft/api-gateway-events-co
+ llector-service.git
+Git-tags: 
+License: MSA v1.0 http://www.mulesoft.com/
+More-Info: For more information go to https://www.mulesoft.com/platform/
+ soa/mule-esb-enterprise
+Product-Url: https://www.mulesoft.com/platform/soa/mule-esb-enterprise
+Recommended-Jdks: [1.8.0_181,9),[11,12),[17,18)
+Support: Get commercial support: http://www.mulesoft.com/support
+Supported-Jdks: [1.8.0,18)
+Vendor-Url: http://www.mulesoft.com
+

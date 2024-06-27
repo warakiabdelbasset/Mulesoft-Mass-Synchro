@@ -1,0 +1,19 @@
+{
+  "name": "API Gateway Events Collector Service",
+  "minMuleVersion": "4.2.0",
+  "requiredProduct": "MULE_EE",
+  "contracts": [
+    {
+      "serviceProviderClassName": "com.mulesoft.mule.gateway.events.collector.service.EventsCollectorProvider",
+      "contractClassName": "com.mulesoft.mule.runtime.gw.api.events.collector.service.EventsCollectorService"
+    }
+  ],
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

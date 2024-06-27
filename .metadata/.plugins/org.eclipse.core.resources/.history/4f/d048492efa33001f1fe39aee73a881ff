@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+
+	<os:object-store name="Object_store_account" doc:name="Object store" doc:id="ab74ecce-4fe8-437a-8c43-5efd52076e19" />
+	<http:request-config name="HTTP_Request_configuration1" doc:name="HTTP Request configuration" doc:id="bb2373f3-8c18-4f6a-87c5-205c49d10be5" >
+		<http:request-connection host="${references.api.salesforce-sapi.host}" port="${references.api.salesforce-sapi.port}" >
+			<http:authentication >
+				<http:basic-authentication username="adadasqd" password="qdsssqdds" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+	<flow name="sf-sync-accountsFlow" doc:id="8a5076ef-9a82-4a1e-a5fc-5176cf5d8f26" >
+		<scheduler doc:name="Scheduler" doc:id="321c90b2-2dbc-4c61-b439-f086aa20dbd3" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="24" timeUnit="HOURS" startDelay="1"/>
+			</scheduling-strategy>
+		</scheduler>
+		<os:retrieve doc:name="LastModifiedDate_account" doc:id="bfafbfba-1fde-4e4c-b174-2409c1de2173" key="LastModifiedDate" objectStore="Object_store_account" target="LastModifiedDate_account">
+			<os:default-value ><![CDATA[#['2024-06-26T00:00:00.747590Z']]]></os:default-value>
+		</os:retrieve>
+		<http:request method="GET" doc:name="/get-account-bulk" doc:id="1216b355-91a3-4db1-87c8-ae6e6af0ab93" responseTimeout="10000000" sendCorrelationId="ALWAYS" correlationId="#[correlationId]" config-ref="HTTP_Request_configuration1" path="/api/accounts">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"LastModifiedDate_account" : vars.LastModifiedDate_account
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="cf107324-576f-4c4a-b6d2-fa90992ca677" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="PUT" doc:name="put salesforce sapi : /putaccounts" doc:id="6cdcb038-2648-478a-8867-316c89381c1e" config-ref="HTTP_Request_configuration" path="/api/accounts" sendCorrelationId="ALWAYS" correlationId="#[correlationId]" responseTimeout="100000000">
+		</http:request>
+		<os:store doc:name="LastModifiedDate_account" doc:id="8b9b078d-b4f0-4bb4-8f0a-f2a15b8a2d53" key="LastModifiedDate" objectStore="Object_store_account">
+			<os:value ><![CDATA[#[%dw 2.0
+output application/json
+---
+now() as String {format: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"}
+//"2024-05-05T10:31:08.000000Z"]]]></os:value>
+		</os:store>
+		<logger level="INFO" doc:name="Logger" doc:id="bdd9c56a-321c-40d0-bffb-d3a38b61f4c0" message="#[payload]"/>
+	</flow>
+</mule>

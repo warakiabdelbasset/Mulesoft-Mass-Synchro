@@ -1,0 +1,8 @@
+%dw 2.0
+
+type auto_cec14409_87c5_484e_8c70_056020b182a8_Output_Variables_sharedAccessSignature = String | java_io_Serializable
+type java_io_Serializable = {|  |} {"typeAlias": "Serializable",
+"typeId": "java.io.Serializable"}
+
+
+

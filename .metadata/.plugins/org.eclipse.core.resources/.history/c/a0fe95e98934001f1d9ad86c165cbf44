@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="39e0a45b-b8f6-4fce-ab59-2a08fd464a65" >
+		<http:request-connection host="${references.api.salesforce-sapi.host}" port="${references.api.salesforce-sapi.port}">
+			<tls:context >
+				<tls:trust-store insecure="true" />
+			</tls:context>
+			<http:authentication >
+				<http:basic-authentication username="qdqsdsd" password="dsfdsqd" />
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+	    <http:listener-config name="sf-operations-papi-httpListenerConfig">
+        <http:listener-connection host="${resources.http.api.listener.host}" port="${resources.http.api.listener.port}" />
+    </http:listener-config>
+    <apikit:config name="sf-operations-papi-config" api="resource::35ae33ae-a09b-40c9-b49b-c178f9e49be8:sf-operations-papi:1.0.13:oas:zip:sf-operations-papi.yaml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" >
+		<apikit:flow-mappings >
+			<apikit:flow-mapping resource="/accounts" action="get" flow-ref="get-accountFlow" />
+			<apikit:flow-mapping resource="/accounts" action="put" content-type="application/json" flow-ref="put-accountsFlow" />
+			<apikit:flow-mapping resource="/accounts/{id}" action="get" flow-ref="get-account-by-idFlow" />
+			<apikit:flow-mapping resource="/accounts/{id}" action="put" content-type="application/json" flow-ref="put-accountsFlow" />
+			<apikit:flow-mapping resource="/accounts/{id}" action="delete" flow-ref="delete-account-by-idFlow" />
+		</apikit:flow-mappings>
+	</apikit:config>
+	<global-property doc:name="Global Property" doc:id="ec530645-4cb9-4678-8f45-cccb39bb3ea3" name="env" value="local" />
+	<configuration-properties doc:name="Configuration properties" doc:id="f7283226-fa0b-4ad1-9dd0-72d3b48f58e6" file="properties/${env}.yaml" />
+	
+	
+	
+</mule>

@@ -1,0 +1,26 @@
+{
+  "minMuleVersion": "4.2.0",
+  "requiredProduct": "MULE_EE",
+  "extensionModelLoaderDescriptor": {
+    "id": "crafted",
+    "attributes": {
+      "type": "com.mulesoft.modules.configuration.properties.api.SecureConfigPropertiesExtensionLoadingDelegate"
+    }
+  },
+  "name": "secure-properties",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [
+        "com.mulesoft.modules.configuration.properties.api"
+      ],
+      "exportedResources": [
+        "META-INF/services/org.mule.runtime.config.api.dsl.model.properties.ConfigurationPropertiesProviderFactory"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

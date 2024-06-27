@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/DIFLogger" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Default configuration</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="payloadTestEntity"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/DIFLogger" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="AdapterType" substitutionGroup="mule:abstract-operator" name="adapter"></xs:element>
+  <xs:complexType name="AdapterType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:group minOccurs="1" ref="mule:messageProcessorOrMixedContentMessageProcessor"></xs:group>
+          </xs:choice>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="message"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="attributes"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyName]" name="externalKeyName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyValue]" name="externalKeyValue"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.correlationId]" name="correlationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.integrationId]" name="integrationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="serviceName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="requestId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatus]" name="statusCode"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatusMessage]" name="statusMessage"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('mule.env')]" name="environment"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('secure::dif-logger.log-level.adapter')]" name="payloadLogLevel"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/DIFLogger" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="DebugType" substitutionGroup="mule:abstract-operator" name="debug"></xs:element>
+  <xs:complexType name="DebugType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="message"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[attributes]" name="attributes"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyName]" name="externalKeyName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyValue]" name="externalKeyValue"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.correlationId]" name="correlationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.integrationId]" name="integrationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="serviceName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="requestId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatus]" name="statusCode"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatusMessage]" name="statusMessage"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('mule.env')]" name="environment"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[authentication.principal]" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('secure::dif-logger.log-level.debug')]" name="payloadLogLevel"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/DIFLogger" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ServiceAsyncEndType" substitutionGroup="mule:abstract-operator" name="service-async-end"></xs:element>
+  <xs:complexType name="ServiceAsyncEndType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="message"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[attributes]" name="attributes"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyName]" name="externalKeyName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyValue]" name="externalKeyValue"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.correlationId]" name="correlationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.integrationId]" name="integrationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[attributes.headers.'x-request-id']" name="requestId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatus]" name="statusCode"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatusMessage]" name="statusMessage"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('mule.env')]" name="environment"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[authentication.principal]" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('secure::dif-logger.log-level.service')]" name="payloadLogLevel"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/DIFLogger" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ServiceAsyncErrorType" substitutionGroup="mule:abstract-operator" name="service-async-error"></xs:element>
+  <xs:complexType name="ServiceAsyncErrorType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="message"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[attributes]" name="attributes"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyName]" name="externalKeyName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyValue]" name="externalKeyValue"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.correlationId]" name="correlationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.integrationId]" name="integrationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[attributes.headers.'x-request-id']" name="requestId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatus]" name="statusCode"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatusMessage]" name="statusMessage"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('mule.env')]" name="environment"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[authentication.principal]" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('secure::dif-logger.log-level.service')]" name="payloadLogLevel"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/DIFLogger" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ServiceAsyncStartType" substitutionGroup="mule:abstract-operator" name="service-async-start"></xs:element>
+  <xs:complexType name="ServiceAsyncStartType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="message"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[attributes]" name="attributes"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyName]" name="externalKeyName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyValue]" name="externalKeyValue"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.correlationId]" name="correlationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.integrationId]" name="integrationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[attributes.headers.'x-request-id']" name="requestId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatus]" name="statusCode"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatusMessage]" name="statusMessage"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('mule.env')]" name="environment"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[authentication.principal]" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('secure::dif-logger.log-level.service')]" name="payloadLogLevel"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/DIFLogger" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ServiceEndType" substitutionGroup="mule:abstract-operator" name="service-end"></xs:element>
+  <xs:complexType name="ServiceEndType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="message"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[attributes]" name="attributes"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyName]" name="externalKeyName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyValue]" name="externalKeyValue"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.correlationId]" name="correlationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.integrationId]" name="integrationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[attributes.headers.'x-request-id']" name="requestId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatus]" name="statusCode"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatusMessage]" name="statusMessage"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('mule.env')]" name="environment"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[authentication.principal]" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('secure::dif-logger.log-level.service')]" name="payloadLogLevel"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/DIFLogger" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ServiceErrorType" substitutionGroup="mule:abstract-operator" name="service-error"></xs:element>
+  <xs:complexType name="ServiceErrorType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="message"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[attributes]" name="attributes"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyName]" name="externalKeyName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyValue]" name="externalKeyValue"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.correlationId]" name="correlationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.integrationId]" name="integrationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[attributes.headers.'x-request-id']" name="requestId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatus]" name="statusCode"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatusMessage]" name="statusMessage"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('mule.env')]" name="environment"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[authentication.principal]" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('secure::dif-logger.log-level.service')]" name="payloadLogLevel"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/DIFLogger" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="ServiceStartType" substitutionGroup="mule:abstract-operator" name="service-start"></xs:element>
+  <xs:complexType name="ServiceStartType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1"></xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="#[payload]" name="message"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" default="#[attributes]" name="attributes"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyName]" name="externalKeyName"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.externalKeyValue]" name="externalKeyValue"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.correlationId]" name="correlationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.integrationId]" name="integrationId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[attributes.headers.'x-request-id']" name="requestId"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatus]" name="statusCode"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[vars.httpStatusMessage]" name="statusMessage"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('mule.env')]" name="environment"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[authentication.principal]" name="username"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[p('secure::dif-logger.log-level.service')]" name="payloadLogLevel"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>

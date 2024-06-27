@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd">
+	<global-property doc:name="Global Property" doc:id="d8606781-6108-4fdb-96a3-15c82d0c935b" name="env" value="local" />
+	<configuration-properties doc:name="Configuration properties" doc:id="5d3c27b2-f00a-458c-8f67-d13979b91224" file="properties/${env}.yaml" />
+	<salesforce:sfdc-config name="Salesforce_France" doc:name="Salesforce Config" doc:id="ad1c1fc7-72fb-4edf-841e-08ce782ca91d" >
+		<salesforce:jwt-connection consumerKey="${secure::salesforce.ConsumerKey}" keyStore="${salesforce.KeyStore}" storePassword="${secure::salesforce.StorePassword}" certificateAlias="${secure::salesforce.CertificateAlias}" principal="${secure::salesforce.Principal}" tokenEndpoint="${salesforce.TokenEndpoint}"/>
+	</salesforce:sfdc-config>
+	<global-property doc:name="Global Property" doc:id="0d1ce078-cc22-4d33-aadf-a0b7d0464410" name="mule.encryptionkey" value="Zr1GiY4oGRjOocU2" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="656289d6-be91-43b0-bc9a-3ace7ef785a2" file="properties/local.yaml" key="${mule.encryptionkey}" />
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="fb4e8513-7d4b-44de-b71b-cdb986a153a9" >
+		<http:listener-connection host="${resources.http.api.listener.host}" port="${resources.http.api.listener.port}"/>
+	</http:listener-config>
+	<apikit:config outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" doc:name="Router" doc:id="b8e43065-7d02-47a3-aac5-6e5586a91bc4" name="Salesforce-France-SAPI-Router" api="resource::35ae33ae-a09b-40c9-b49b-c178f9e49be8:salesforce-france-sapi:1.0.6:oas:zip:salesforce-france-sapi.yaml" >
+		<apikit:flow-mappings >
+			<apikit:flow-mapping resource="/accounts" action="get" flow-ref="get-account-bulkFlow" />
+		</apikit:flow-mappings>
+	</apikit:config>
+</mule>

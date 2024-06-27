@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="config">
+            <description><![CDATA[Default configuration]]></description>
+            <parameters>
+                <parameter name="payloadTestEntity">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="expirationPolicy">
+                    <description><![CDATA[Configures the minimum amount of time that a dynamic configuration instance can remain idle before the runtime considers it eligible for expiration. This does not mean that the platform will expire the instance at the exact moment that it becomes eligible. The runtime will actually purge the instances when it sees it fit.]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections/>
+    <extension name="DIF Logger">
+        <description><![CDATA[]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="adapter">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="message">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyValue">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="integrationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="serviceName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="requestId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusMessage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="environment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="payloadLogLevel">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="debug">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="message">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyValue">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="integrationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="serviceName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="requestId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusMessage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="environment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="payloadLogLevel">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="serviceAsyncEnd">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="message">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyValue">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="integrationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="requestId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusMessage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="environment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="payloadLogLevel">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="serviceAsyncError">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="message">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyValue">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="integrationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="requestId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusMessage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="environment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="payloadLogLevel">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="serviceAsyncStart">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="message">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyValue">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="integrationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="requestId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusMessage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="environment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="payloadLogLevel">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="serviceEnd">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="message">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyValue">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="integrationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="requestId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusMessage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="environment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="payloadLogLevel">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="serviceError">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="message">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyValue">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="integrationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="requestId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusMessage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="environment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="payloadLogLevel">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="serviceStart">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="message">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="attributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="externalKeyValue">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="correlationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="integrationId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="requestId">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusMessage">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="environment">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="username">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="payloadLogLevel">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources/>
+    <types>
+        <type name="dif.mulesoft.extension.module.logger.internal.message.LoggingPayloadMessage">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="message">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>

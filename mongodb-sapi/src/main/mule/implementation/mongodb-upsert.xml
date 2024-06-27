@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:java="http://www.mulesoft.org/schema/mule/java"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d7f8717c-36b2-460b-a925-696974ffc56b" >
+		<http:listener-connection host="0.0.0.0" port="8090" />
+	</http:listener-config>
+	<flow name="mongodb-upsertFlow" doc:id="33c763d4-989e-403a-8fec-a4474381015e" >
+		<http:listener doc:name="Listener" doc:id="6cb98011-7e77-47f1-93eb-c373b1ee0fc0" config-ref="HTTP_Listener_config" path="/mongodb"/>
+		<ee:transform doc:name="Transform Message" doc:id="a75ffbb7-cf7e-4934-993a-245a088de7ea" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+
+	test : "testabdo"
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<try doc:name="Try" doc:id="a30e781d-e7c5-430e-83d2-fbc6c5278911" >
+			<java:invoke-static method="getAllDatabaseNames()" doc:name="Invoke static" doc:id="755de0f7-9684-488f-909d-cb596fc8e47c" class="MongoClientConnection">
+		</java:invoke-static>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="aa73ad39-e504-4f33-a99c-852544f4446c" >
+					<raise-error doc:name="Raise error" doc:id="e5e581ef-57c0-46ab-bdd8-0909e0c59ed3" type="ANY"/>
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<logger level="INFO" doc:name="Logger" doc:id="1282cdef-5964-4f45-9b3d-734c90d4785c" message="#[payload]"/>
+	</flow>
+</mule>

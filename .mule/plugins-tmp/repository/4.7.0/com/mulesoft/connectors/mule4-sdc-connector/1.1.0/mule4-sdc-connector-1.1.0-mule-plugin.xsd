@@ -1,0 +1,1310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/sdc" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/tls" schemaLocation="http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd"></xs:import>
+  <xs:complexType name="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.proxy.HttpProxyConfig">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="host"></xs:attribute>
+        <xs:attribute type="mule:substitutableInt" use="required" name="port"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="username"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="password"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="nonProxyHosts"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" abstract="true" name="abstract-proxy"></xs:element>
+  <xs:element xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" substitutionGroup="sdc:abstract-proxy" name="proxy">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sdc:com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.proxy.HttpProxyConfig">
+          <xs:attribute type="xs:string" use="optional" name="name"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="sdc-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="mule:expressionInt" use="optional" default="60" name="responseTimeout"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="responseTimeoutUnit"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" default="AUTO" name="streamingType"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="oauth-jwt-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-headers">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" minOccurs="0" maxOccurs="unbounded" ref="sdc:abstract-default-header"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-query-params">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" minOccurs="0" maxOccurs="unbounded" ref="sdc:abstract-default-query-param"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" base="sdc:com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.proxy.HttpProxyConfig"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="defaultHeaders"></xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="defaultQueryParams"></xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30" name="connectionTimeout"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="connectionTimeoutUnit"></xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="usePersistentConnections"></xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="maxConnections"></xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30" name="connectionIdleTimeout"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="connectionIdleTimeoutUnit"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="proxyConfig"></xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="streamResponse"></xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="responseBufferSize"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="consumerKey"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="keyStorePath"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="storePassword"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="keyAlias"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="subject"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="audienceUrl"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="org.mule.runtime.http.api.HttpConstants.ProtocolEnumType" use="optional" default="HTTP" name="protocol"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.request.RequestHeader">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="key"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" type="sdc:com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.request.RequestHeader" abstract="true" name="abstract-default-header"></xs:element>
+  <xs:element xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" substitutionGroup="sdc:abstract-default-header" name="default-header">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sdc:com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.request.RequestHeader"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.request.QueryParam">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractExtensionType">
+        <xs:attribute type="xs:string" use="required" name="key"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="value"></xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" type="sdc:com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.request.QueryParam" abstract="true" name="abstract-default-query-param"></xs:element>
+  <xs:element xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" substitutionGroup="sdc:abstract-default-query-param" name="default-query-param">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="sdc:com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.request.QueryParam"></xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="oauth-user-pass-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-headers">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" minOccurs="0" maxOccurs="unbounded" ref="sdc:abstract-default-header"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="default-query-params">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" minOccurs="0" maxOccurs="unbounded" ref="sdc:abstract-default-query-param"></xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="proxy-config">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension xmlns:sdc="http://www.mulesoft.org/schema/mule/sdc" base="sdc:com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.proxy.HttpProxyConfig"></xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="defaultHeaders"></xs:attribute>
+          <xs:attribute type="mule:substitutableName" use="optional" name="defaultQueryParams"></xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30" name="connectionTimeout"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="connectionTimeoutUnit"></xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="usePersistentConnections"></xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="maxConnections"></xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="30" name="connectionIdleTimeout"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" default="SECONDS" name="connectionIdleTimeoutUnit"></xs:attribute>
+          <xs:attribute type="xs:string" use="optional" name="proxyConfig"></xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="false" name="streamResponse"></xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="-1" name="responseBufferSize"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="clientId"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="clientSecret"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="username"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="password"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="audienceUrl"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="org.mule.runtime.http.api.HttpConstants.ProtocolEnumType" use="optional" default="HTTP" name="protocol"></xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="CreateBulkJobType" substitutionGroup="mule:abstract-operator" name="create-bulk-job">
+    <xs:annotation>
+      <xs:documentation>Creates a job representing a bulk operation that for sending data to Salesforce CDP for asynchronous processing This operation makes an HTTP POST request to the /ingest/jobs endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CreateBulkJobType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="sourceNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Name of Ingestion source API to work with</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="objectNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Name of object to work with</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectors.sdc.api.metadata.CreateBulkJobOperationOperationUriParamEnumEnumType" use="required" name="operationUriParam">
+          <xs:annotation>
+            <xs:documentation>Operation to be executed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="DeleteBulkJobType" substitutionGroup="mule:abstract-operator" name="delete-bulk-job">
+    <xs:annotation>
+      <xs:documentation>Deletes the job for the specified Job ID This operation makes an HTTP DELETE request to the /ingest/jobs/{id} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteBulkJobType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="idUriParam">
+          <xs:annotation>
+            <xs:documentation>The Job ID returned in the response body from the Create Job request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="DeleteObjectsType" substitutionGroup="mule:abstract-operator" name="delete-objects">
+    <xs:annotation>
+      <xs:documentation>Deletes one or more records from Salesforce CDP This operation makes an HTTP DELETE request to the /ingest/sources/{source-name}/{object-name} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteObjectsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" name="ids-query-params">
+            <xs:annotation>
+              <xs:documentation>A comma separated list of IDs to be deleted</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" name="ids-query-param">
+                  <xs:complexType>
+                    <xs:attribute type="mule:expressionString" use="required" name="value"></xs:attribute>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="sourceNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Name of Ingestion API source to work with</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="objectNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Name of object to work with</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionList" use="optional" name="idsQueryParams">
+          <xs:annotation>
+            <xs:documentation>A comma separated list of IDs to be deleted</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetAllCalculatedInsightMetadataType" substitutionGroup="mule:abstract-operator" name="get-all-calculated-insight-metadata">
+    <xs:annotation>
+      <xs:documentation>The metadata all calculated insights including the dimension and measure that are part of the calculated insight. This operation makes an HTTP GET request to the /insight/metadata endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetAllCalculatedInsightMetadataType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetBulkJobType" substitutionGroup="mule:abstract-operator" name="get-bulk-job">
+    <xs:annotation>
+      <xs:documentation>Retrieves detailed information about a job given its ID This operation makes an HTTP GET request to the /ingest/jobs/{id} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetBulkJobType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="idUriParam">
+          <xs:annotation>
+            <xs:documentation>The Job ID returned in the response body from the Create Job request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetCalculatedInsightMetadataType" substitutionGroup="mule:abstract-operator" name="get-calculated-insight-metadata">
+    <xs:annotation>
+      <xs:documentation>The metadata includes the dimension and measure that are part of the calculated insight. This operation makes an HTTP GET request to the /insight/metadata/{ci-name} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetCalculatedInsightMetadataType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="ciNameUriParam">
+          <xs:annotation>
+            <xs:documentation>The calculated insight name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetCalculatedInsightWithFiltersFieldsAndLimitType" substitutionGroup="mule:abstract-operator" name="get-calculated-insight-with-filters-fields-and-limit">
+    <xs:annotation>
+      <xs:documentation>Use this API to query the calculated insights. Users can slice, dice, and filter by selecting different dimensions, measures and filters. This operation makes an HTTP GET request to the /insight/calculated-insights/{ci-name} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetCalculatedInsightWithFiltersFieldsAndLimitType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="ciNameUriParam">
+          <xs:annotation>
+            <xs:documentation>The calculated insight name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="dimensionsQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma separated list of dimensions to be projected. By default, this parameter includes all of the available dimensions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="measuresQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma separated list of measures to be projected. By default, this parameter includes all of the available measures.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="limitQueryParam">
+          <xs:annotation>
+            <xs:documentation>The number of items to return. By default, the maximum number, 4999 items are returned.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="offsetQueryParam">
+          <xs:annotation>
+            <xs:documentation>Number of rows to skip before starting to return.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="filtersQueryParam">
+          <xs:annotation>
+            <xs:documentation>This parameter is added to a select query to select results of only a specific type.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="orderbyQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma seperated values to sort the result-set in ascending or descending order.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectors.sdc.api.metadata.GetCalculatedInsightWithFiltersFieldsAndLimitOperationTimeGranularityQueryParamEnumEnumType" use="optional" name="timeGranularityQueryParam">
+          <xs:annotation>
+            <xs:documentation>User specified granularity if ci has one or more time dimensions available.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetComputedViewForProfileType" substitutionGroup="mule:abstract-operator" name="get-computed-view-for-profile">
+    <xs:annotation>
+      <xs:documentation>Returns data model objects and a computed view based on indexes and search filters. This operation makes an HTTP GET request to the /profile/{dataModelName}/{id}/calculated-insights/{ci_name} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetComputedViewForProfileType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="dataModelNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Data model object API name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="idUriParam">
+          <xs:annotation>
+            <xs:documentation>The value of an indexed column.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="ciNameUriParam">
+          <xs:annotation>
+            <xs:documentation>The calculated insight name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="searchKeyQueryParam">
+          <xs:annotation>
+            <xs:documentation>Index name if object's ID is different from primary key.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="dimensionsQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma separated name of the dimensions to be part of result from the computed view. By default includes all the dimensions.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="measuresQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma separated name of the measures to be part of result from the computed view. By default includes all the measures.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="limitQueryParam">
+          <xs:annotation>
+            <xs:documentation>The numbers of items to return.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="filtersQueryParam">
+          <xs:annotation>
+            <xs:documentation>Filters are applied only on the parent object.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="offsetQueryParam">
+          <xs:annotation>
+            <xs:documentation>Number of rows to skip before starting to return.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="orderbyQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma separated values to sort the result-set in ascending or descending order.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectors.sdc.api.metadata.GetComputedViewForProfileOperationTimeGranularityQueryParamEnumEnumType" use="optional" name="timeGranularityQueryParam">
+          <xs:annotation>
+            <xs:documentation>User specified granularity if ci has one or more time dimensions available.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetMetaType" substitutionGroup="mule:abstract-operator" name="get-meta">
+    <xs:annotation>
+      <xs:documentation>Returns the metadata for the data model object. Metadata includes the list of fields, data types and indexes available for lookup. This operation makes an HTTP GET request to the /profile/metadata/{dataModelName} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetMetaType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="dataModelNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Data model object API name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetMetaByCategoryType" substitutionGroup="mule:abstract-operator" name="get-meta-by-category">
+    <xs:annotation>
+      <xs:documentation>Returns the list of data model objects, their fields, and category. This operation makes an HTTP GET request to the /profile/metadata endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetMetaByCategoryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetParentType" substitutionGroup="mule:abstract-operator" name="get-parent">
+    <xs:annotation>
+      <xs:documentation>Returns data model objects based on search indexes and filters. Use this API call to retrieve the object record based on the primary key or secondary keys. Returns an empty list when records are not found. This operation makes an HTTP GET request to the /profile/{dataModelName}/{id} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetParentType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="dataModelNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Data model object API name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="idUriParam">
+          <xs:annotation>
+            <xs:documentation>The value of the primary/secondary key field. Defaults to primary key when not specified.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="searchKeyQueryParam">
+          <xs:annotation>
+            <xs:documentation>The name of the key field, if a field other than the primary key is used.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="fieldsQueryParam">
+          <xs:annotation>
+            <xs:documentation>Distinct comma-separated name of fields that you want to include in the result. Not specifying this parameter will return an arbitrary set of fields.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="filtersQueryParam">
+          <xs:annotation>
+            <xs:documentation>A set of comma-separated equality expressions, within square brackets.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="limitQueryParam">
+          <xs:annotation>
+            <xs:documentation>The numbers of records to be returned.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="orderbyQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma separated values to sort the result-set in ascending or descending order. This field is available in API version 52.0 and later.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="offsetQueryParam">
+          <xs:annotation>
+            <xs:documentation>Number of rows to skip before starting to return. This field is available in API version 52.0 and later.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetParentAndChildType" substitutionGroup="mule:abstract-operator" name="get-parent-and-child">
+    <xs:annotation>
+      <xs:documentation>Returns data model objects and child objects based on indexes and search filters. This operation makes an HTTP GET request to the /profile/{dataModelName}/{id}/{childDataModelName} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetParentAndChildType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="dataModelNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Data model object API name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="idUriParam">
+          <xs:annotation>
+            <xs:documentation>The value of an indexed column.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="childDataModelNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Child data model object API name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="searchKeyQueryParam">
+          <xs:annotation>
+            <xs:documentation>Index name if object's ID is different from primary key.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="fieldsQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma separated name of the fields to be part of result from the child entity. Not specifying will give the first 10 alphabetically sorted fields.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="limitQueryParam">
+          <xs:annotation>
+            <xs:documentation>The numbers of items to return.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="filtersQueryParam">
+          <xs:annotation>
+            <xs:documentation>Filters are applied only on the parent object.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="offsetQueryParam">
+          <xs:annotation>
+            <xs:documentation>Number of rows to skip before starting to return.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="orderbyQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma separated values to sort the result-set in ascending or descending order.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="GetParentWithFiltersType" substitutionGroup="mule:abstract-operator" name="get-parent-with-filters">
+    <xs:annotation>
+      <xs:documentation>Returns data model objects based on search filters. Use this API call to retrieve the object records after applying the selected filter(s). This operation makes an HTTP GET request to the /profile/{dataModelName} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetParentWithFiltersType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="dataModelNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Data model object API name.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="filtersQueryParam">
+          <xs:annotation>
+            <xs:documentation>A set of comma-separated equality expressions, within square brackets.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="fieldsQueryParam">
+          <xs:annotation>
+            <xs:documentation>Distinct comma-separated name of fields that you want to include in the result. Not specifying this parameter will return an arbitrary set of fields.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="limitQueryParam">
+          <xs:annotation>
+            <xs:documentation>The numbers of records to be returned.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="orderbyQueryParam">
+          <xs:annotation>
+            <xs:documentation>Comma separated values to sort the result-set in ascending or descending order. This field is available in API version 52.0 and later.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="offsetQueryParam">
+          <xs:annotation>
+            <xs:documentation>Number of rows to skip before starting to return. This field is available in API version 52.0 and later.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="InsertObjectsType" substitutionGroup="mule:abstract-operator" name="insert-objects">
+    <xs:annotation>
+      <xs:documentation>Creates new records or updates existing records in Salesforce CDP This operation makes an HTTP POST request to the /ingest/sources/{source-name}/{object-name} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="InsertObjectsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="insert-objects-body">
+            <xs:annotation>
+              <xs:documentation>the content to use</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="sourceNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Name of Ingestion API source to work with</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="required" name="objectNameUriParam">
+          <xs:annotation>
+            <xs:documentation>Name of object to work with</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="QueryType" substitutionGroup="mule:abstract-operator" name="query">
+    <xs:annotation>
+      <xs:documentation>Executes a query against the specified object and returns data that matches the specified criteria This operation makes an HTTP POST request to the /query endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="QueryType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="query-body">
+            <xs:annotation>
+              <xs:documentation>the content to use</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="UpdateBulkOperationJobType" substitutionGroup="mule:abstract-operator" name="update-bulk-operation-job">
+    <xs:annotation>
+      <xs:documentation>Closes or aborts a job given its ID This operation makes an HTTP PATCH request to the /ingest/jobs/{id} endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UpdateBulkOperationJobType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="idUriParam">
+          <xs:annotation>
+            <xs:documentation>The Job ID returned in the response body from the Create Job request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectors.sdc.api.metadata.UpdateBulkOperationJobOperationStateUriParamEnumEnumType" use="required" name="state">
+          <xs:annotation>
+            <xs:documentation>The new state for the job</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="UploadDataBulkJobType" substitutionGroup="mule:abstract-operator" name="upload-data-bulk-job">
+    <xs:annotation>
+      <xs:documentation>Uploads data for a job using CSV data you provide This operation makes an HTTP PUT request to the /ingest/jobs/{id}/batches endpoint</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UploadDataBulkJobType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractOperatorType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-byte-streaming-strategy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="upload-data-bulk-job-body">
+            <xs:annotation>
+              <xs:documentation>the content to use</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-query-params"></xs:element>
+          <xs:element type="xs:string" minOccurs="0" maxOccurs="1" name="custom-headers"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="mule:expressionString" use="required" name="idUriParam">
+          <xs:annotation>
+            <xs:documentation>The Job ID returned in the response body from the Create Job request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionInt" use="optional" name="responseTimeout"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="java.util.concurrent.TimeUnitEnumType" use="optional" name="responseTimeoutUnit"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType" use="optional" name="streamingType"></xs:attribute>
+        <xs:attribute type="xs:string" use="optional" name="target">
+          <xs:annotation>
+            <xs:documentation>The name of a variable on which the operation's output will be placed</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" default="#[payload]" name="targetValue">
+          <xs:annotation>
+            <xs:documentation>An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="sdc-webhook-config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Configuration element for a WebhookSource.</xs:documentation>
+          </xs:annotation>
+          <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element minOccurs="1" maxOccurs="1" ref="mule:abstractConnectionProvider"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="basePath">
+            <xs:annotation>
+              <xs:documentation>Base path to use for all requests that reference this config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstractConnectionProvider" name="listener-connection">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractConnectionProviderType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:reconnection"></xs:element>
+            <xs:element xmlns:tls="http://www.mulesoft.org/schema/mule/tls" minOccurs="0" maxOccurs="1" ref="tls:context"></xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="optional" name="tlsContext"></xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="org.mule.runtime.http.api.HttpConstants.ProtocolEnumType" use="optional" default="HTTP" name="protocol">
+            <xs:annotation>
+              <xs:documentation>Protocol to use for communication. Valid values are HTTP and HTTPS. Default value is HTTP. When using HTTPS the HTTP communication is going to be secured using TLS / SSL. If HTTPS was configured as protocol then the user needs to configure at least the keystore in the tls:context child element of this listener-config.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="host">
+            <xs:annotation>
+              <xs:documentation>Host where the requests will be sent.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="required" name="port">
+            <xs:annotation>
+              <xs:documentation>Port where the requests will be received.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableBoolean" use="optional" default="true" name="usePersistentConnections">
+            <xs:annotation>
+              <xs:documentation>If false, each connection will be closed after the first request is completed.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:substitutableInt" use="optional" default="40000" name="connectionIdleTimeout">
+            <xs:annotation>
+              <xs:documentation>The number of milliseconds that a connection can remain idle before it is closed. The value of this attribute is only used when persistent connections are enabled. The listener default timeout is bigger than our requester default timeout to avoid 'Remotely closed' exception when you start sending a request on an existing connection just before the timeout occurs.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/sdc" xmlns:mule="http://www.mulesoft.org/schema/mule/core" type="Webhook-listenerType" substitutionGroup="mule:abstract-message-source" name="webhook-listener"></xs:element>
+  <xs:complexType name="Webhook-listenerType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageSourceType">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-redelivery-policy"></xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" ref="mule:abstract-reconnection-strategy"></xs:element>
+        </xs:sequence>
+        <xs:attribute type="xs:string" use="optional" default="/" name="path"></xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="signingKey"></xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="com.mulesoft.connectors.sdc.api.custom.WebhookSourceSigningAlgorithmEnumEnumType" use="required" name="signingAlgorithm"></xs:attribute>
+        <xs:attribute type="mule:expressionString" use="optional" name="outputMimeType">
+          <xs:annotation>
+            <xs:documentation>The mime type of the payload that this operation outputs.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/sdc" type="SalesforceCDP-webhook-listener-backPressureStrategyEnumType" use="optional" default="FAIL" name="onCapacityOverload">
+          <xs:annotation>
+            <xs:documentation>Strategy that the runtime will apply when the flow receives more messages than it has the capacity to handle</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" use="required" name="config-ref">
+          <xs:annotation>
+            <xs:documentation>The name of the configuration to be used to execute this component</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="java.util.concurrent.TimeUnitEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NANOSECONDS"></xs:enumeration>
+          <xs:enumeration value="MICROSECONDS"></xs:enumeration>
+          <xs:enumeration value="MILLISECONDS"></xs:enumeration>
+          <xs:enumeration value="SECONDS"></xs:enumeration>
+          <xs:enumeration value="MINUTES"></xs:enumeration>
+          <xs:enumeration value="HOURS"></xs:enumeration>
+          <xs:enumeration value="DAYS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectivity.salesforcecdpconnector.rest.commons.api.configuration.StreamingTypeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AUTO"></xs:enumeration>
+          <xs:enumeration value="ALWAYS"></xs:enumeration>
+          <xs:enumeration value="NEVER"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="org.mule.runtime.http.api.HttpConstants.ProtocolEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="HTTP"></xs:enumeration>
+          <xs:enumeration value="HTTPS"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.sdc.api.metadata.CreateBulkJobOperationOperationUriParamEnumEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="delete"></xs:enumeration>
+          <xs:enumeration value="upsert"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.sdc.api.metadata.GetCalculatedInsightWithFiltersFieldsAndLimitOperationTimeGranularityQueryParamEnumEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="HOUR"></xs:enumeration>
+          <xs:enumeration value="DAY"></xs:enumeration>
+          <xs:enumeration value="MONTH"></xs:enumeration>
+          <xs:enumeration value="QUARTER"></xs:enumeration>
+          <xs:enumeration value="YEAR"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.sdc.api.metadata.GetComputedViewForProfileOperationTimeGranularityQueryParamEnumEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="HOUR"></xs:enumeration>
+          <xs:enumeration value="DAY"></xs:enumeration>
+          <xs:enumeration value="MONTH"></xs:enumeration>
+          <xs:enumeration value="QUARTER"></xs:enumeration>
+          <xs:enumeration value="YEAR"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.sdc.api.metadata.UpdateBulkOperationJobOperationStateUriParamEnumEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Aborted"></xs:enumeration>
+          <xs:enumeration value="UploadComplete"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.connectors.sdc.api.custom.WebhookSourceSigningAlgorithmEnumEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="HmacSHA256"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="SalesforceCDP-webhook-listener-backPressureStrategyEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="FAIL"></xs:enumeration>
+          <xs:enumeration value="DROP"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

@@ -1,0 +1,225 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "Invoke Apex SOAP Method Headers",
+  "description": "The root schema comprises the entire JSON document.",
+  "default": {},
+  "examples": [
+    {
+      "DebuggingHeader": {
+        "categories": [
+          {
+            "category": "Db",
+            "level": "NONE"
+          }
+        ],
+        "debugLevel": "Debugonly"
+      },
+      "PackageVersionHeader": {
+        "packageVersions": [
+          {
+            "majorNumber": 1,
+            "minorNumber": 2,
+            "namespace": "ns"
+          }
+        ]
+      }
+    }
+  ],
+  "required": [
+    "DebuggingHeader",
+    "PackageVersionHeader"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "DebuggingHeader": {
+      "$id": "#/properties/DebuggingHeader",
+      "type": "object",
+      "title": "The DebuggingHeader schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "categories": [
+            {
+              "category": "Db",
+              "level": "NONE"
+            }
+          ],
+          "debugLevel": "Debugonly"
+        }
+      ],
+      "required": [
+        "categories",
+        "debugLevel"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "categories": {
+          "$id": "#/properties/DebuggingHeader/properties/categories",
+          "type": "array",
+          "title": "The categories schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": [],
+          "examples": [
+            [
+              {
+                "category": "Db",
+                "level": "NONE"
+              }
+            ]
+          ],
+          "additionalItems": true,
+          "items": {
+            "$id": "#/properties/DebuggingHeader/properties/categories/items",
+            "type": "object",
+            "title": "The items schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+              [
+                {
+                  "category": "Db",
+                  "level": "NONE"
+                }
+              ]
+            ],
+            "required": [
+              "category",
+              "level"
+            ],
+            "additionalProperties": true,
+            "properties": {
+              "category": {
+                "$id": "#/properties/DebuggingHeader/properties/categories/items/properties/category",
+                "type": "string",
+                "title": "The category schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                  "Db"
+                ]
+              },
+              "level": {
+                "$id": "#/properties/DebuggingHeader/properties/categories/items/properties/level",
+                "type": "string",
+                "title": "The level schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                  "NONE"
+                ]
+              }
+            }
+          }
+        },
+        "debugLevel": {
+          "$id": "#/properties/DebuggingHeader/properties/debugLevel",
+          "type": "string",
+          "title": "The debugLevel schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "Debugonly"
+          ]
+        }
+      }
+    },
+    "PackageVersionHeader": {
+      "$id": "#/properties/PackageVersionHeader",
+      "type": "object",
+      "title": "The PackageVersionHeader schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "packageVersions": [
+            {
+              "majorNumber": 1,
+              "minorNumber": 2,
+              "namespace": "ns"
+            }
+          ]
+        }
+      ],
+      "required": [
+        "packageVersions"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "packageVersions": {
+          "$id": "#/properties/PackageVersionHeader/properties/packageVersions",
+          "type": "array",
+          "title": "The packageVersions schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": [],
+          "examples": [
+            [
+              {
+                "majorNumber": 1,
+                "minorNumber": 2,
+                "namespace": "ns"
+              }
+            ]
+          ],
+          "additionalItems": true,
+          "items": {
+            "$id": "#/properties/PackageVersionHeader/properties/packageVersions/items",
+            "type": "object",
+            "title": "The items schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+              [
+                {
+                  "majorNumber": 1,
+                  "minorNumber": 2,
+                  "namespace": "ns"
+                }
+              ]
+            ],
+            "required": [
+              "majorNumber",
+              "minorNumber",
+              "namespace"
+            ],
+            "additionalProperties": true,
+            "properties": {
+              "majorNumber": {
+                "$id": "#/properties/PackageVersionHeader/properties/packageVersions/items/properties/majorNumber",
+                "type": "integer",
+                "title": "The majorNumber schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": 0,
+                "examples": [
+                  1
+                ]
+              },
+              "minorNumber": {
+                "$id": "#/properties/PackageVersionHeader/properties/packageVersions/items/properties/minorNumber",
+                "type": "integer",
+                "title": "The minorNumber schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": 0,
+                "examples": [
+                  2
+                ]
+              },
+              "namespace": {
+                "$id": "#/properties/PackageVersionHeader/properties/packageVersions/items/properties/namespace",
+                "type": "string",
+                "title": "The namespace schema",
+                "description": "An explanation about the purpose of this instance.",
+                "default": "",
+                "examples": [
+                  "ns"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

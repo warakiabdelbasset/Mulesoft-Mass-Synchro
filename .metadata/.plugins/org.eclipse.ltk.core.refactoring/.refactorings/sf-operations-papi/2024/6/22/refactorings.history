@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy package &apos;cert&apos; to &apos;sf-synchro-papi/src/main/resources&apos;&#x0A;- Original project: &apos;sf-operations-papi&apos;&#x0A;- Destination element: &apos;sf-synchro-papi/src/main/resources&apos;&#x0A;- Original element: &apos;sf-operations-papi/src/main/resources/cert&apos;" description="Copy package" destination="=sf-synchro-papi/src\/main\/resources" element1="/src\/main\/resources&lt;cert" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1717201824243" version="1.0"/>
+</session>

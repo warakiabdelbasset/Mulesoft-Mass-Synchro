@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.mulesoft.org/schema/mule/secure-properties" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import namespace="http://www.mulesoft.org/schema/mule/core" schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></xs:import>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" substitutionGroup="mule:abstract-shared-extension" name="config">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element minOccurs="0" maxOccurs="1" ref="mule:expiration-policy"></xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" name="encrypt">
+              <xs:complexType>
+                <xs:complexContent>
+                  <xs:extension base="mule:abstractExtensionType">
+                    <xs:sequence></xs:sequence>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/secure-properties" type="com.mulesoft.modules.configuration.properties.api.EncryptionAlgorithmEnumType" use="optional" default="AES" name="algorithm"></xs:attribute>
+                    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/secure-properties" type="com.mulesoft.modules.configuration.properties.api.EncryptionModeEnumType" use="optional" default="CBC" name="mode"></xs:attribute>
+                    <xs:attribute type="mule:substitutableBoolean" use="optional" name="useRandomIVs"></xs:attribute>
+                  </xs:extension>
+                </xs:complexContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute type="xs:string" use="required" name="file">
+            <xs:annotation>
+              <xs:documentation> The location of the file with the secure configuration properties to use. It may be a location in the classpath or an absolute location. 
+The file location value may also contains references to properties that will only be resolved based on system properties or properties set at deployment time.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute type="mule:expressionString" use="required" name="key"></xs:attribute>
+          <xs:attribute type="mule:expressionBoolean" use="optional" name="fileLevelEncryption"></xs:attribute>
+          <xs:attribute type="mule:expressionString" use="optional" name="encoding"></xs:attribute>
+          <xs:attribute type="xs:string" use="required" name="name">
+            <xs:annotation>
+              <xs:documentation>The identifier of this element used to reference it in other components</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="com.mulesoft.modules.configuration.properties.api.EncryptionAlgorithmEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AES"></xs:enumeration>
+          <xs:enumeration value="Blowfish"></xs:enumeration>
+          <xs:enumeration value="DES"></xs:enumeration>
+          <xs:enumeration value="DESede"></xs:enumeration>
+          <xs:enumeration value="Camellia"></xs:enumeration>
+          <xs:enumeration value="CAST5"></xs:enumeration>
+          <xs:enumeration value="CAST6"></xs:enumeration>
+          <xs:enumeration value="Noekeon"></xs:enumeration>
+          <xs:enumeration value="Rijndael"></xs:enumeration>
+          <xs:enumeration value="SEED"></xs:enumeration>
+          <xs:enumeration value="Serpent"></xs:enumeration>
+          <xs:enumeration value="Skipjack"></xs:enumeration>
+          <xs:enumeration value="TEA"></xs:enumeration>
+          <xs:enumeration value="Twofish"></xs:enumeration>
+          <xs:enumeration value="XTEA"></xs:enumeration>
+          <xs:enumeration value="RC2"></xs:enumeration>
+          <xs:enumeration value="RC5"></xs:enumeration>
+          <xs:enumeration value="RC6"></xs:enumeration>
+          <xs:enumeration value="RSA"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="com.mulesoft.modules.configuration.properties.api.EncryptionModeEnumType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="CBC"></xs:enumeration>
+          <xs:enumeration value="CFB"></xs:enumeration>
+          <xs:enumeration value="ECB"></xs:enumeration>
+          <xs:enumeration value="OFB"></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>

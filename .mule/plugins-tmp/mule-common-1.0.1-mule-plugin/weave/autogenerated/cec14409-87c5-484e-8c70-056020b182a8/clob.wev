@@ -1,0 +1,6 @@
+%dw 2.0
+
+type auto_cec14409_87c5_484e_8c70_056020b182a8_Output_Variables_ESDocument_clob = {|  |} {"typeAlias": "Object",
+"class": "java.lang.Object",
+"typeId": "java.lang.Object"}
+

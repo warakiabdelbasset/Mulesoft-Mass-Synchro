@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="8a28e34a-5caf-4ba9-9823-e817e5d2bef0" >
+		<http:request-connection host="${references.api.sf-operations-papi.host}" port="${references.api.sf-operations-papi.port}" />
+	</http:request-config>
+	<flow name="get-accountsFlow" doc:id="0eb09c15-ca4f-469f-bb6e-750726ed6588" >
+		<http:request method="GET" doc:name="get operation papi : /account" doc:id="88c789cf-6ac1-4242-b19e-f3eb1dcd3532" config-ref="HTTP_Request_configuration" path="/api/accounts" sendCorrelationId="ALWAYS" correlationId="#[correlationId]" responseTimeout="100000000">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"LastModifiedDate" : attributes.queryParams[0]
+}]]]></http:query-params>
+		</http:request>
+	</flow>
+</mule>

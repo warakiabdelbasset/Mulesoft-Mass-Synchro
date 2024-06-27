@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Salesforce-Global-SAPI2/src/main/resources/properties/localprop.yaml&apos; to &apos;local.yaml&apos;" description="Rename resource &apos;localprop.yaml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/resources/properties/localprop.yaml" name="local.yaml" stamp="1718538938921" updateReferences="true"/>
+</session>

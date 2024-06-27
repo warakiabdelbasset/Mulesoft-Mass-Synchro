@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<flow name="get-accountsFlow" doc:id="07527723-c35d-439b-a92c-e9f3b68273e7" >
+		<ee:transform doc:name="Filter Variables" doc:id="99202662-a019-42bb-b3a1-8b8a901b63a5" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="LastModifiedDate" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.queryParams[0]]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:query doc:name="Query" doc:id="795911bd-5ce7-4069-a6f3-f5fc283fdc9a" config-ref="Salesforce_SmarkGlobal">
+			<salesforce:salesforce-query ><![CDATA[SELECT FIELDS(ALL) from Account limit 200]]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[output application/java
+---
+{
+	"LastModifiedDate" : vars.LastModifiedDate
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="Transf to json" doc:id="0cb8b1e6-f8d2-4ad9-964c-ee7a833452db" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

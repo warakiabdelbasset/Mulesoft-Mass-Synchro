@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="get-account-bulkFlow" doc:id="34e7a6fb-5d74-4745-98c4-a8f14e1f7b97" >
+		<!-- [STUDIO:"Listener"]<http:listener doc:name="Listener" doc:id="3175100e-c3f7-47ff-99c2-7acb144383ab" config-ref="HTTP_Listener_config" path="/get-account-bulk"/> [STUDIO] -->
+		<ee:transform doc:name="query_bulk" doc:id="ed85c1e6-446b-4b81-8fb2-1e16162d5512" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="query_bulk" ><![CDATA[%dw 2.0
+output application/java
+---
+'SELECT Id,sync__c,Ownership,Description,BillingCity,Rating,Website,NumberOfEmployees,type,Name,ShippingStreet,AccountNumber,Industry,BillingStreet,Phone,TickerSymbol,country__c,BillingState,AnnualRevenue from Account where LastModifiedDate >= ' ++ attributes.queryParams.LastModifiedDate_account as String]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<salesforce:create-query-job-bulk-api-v2 doc:name="Create query job bulk api v 2" doc:id="a0e48bb3-d9be-4851-9342-d4b55a8ed5e2" config-ref="Salesforce_France" query="#[vars.query_bulk]"/>
+		<set-variable value="#[payload.id]" doc:name="JobId" doc:id="381a58ca-aa7f-40b4-be86-8650693287a7" variableName="JobId"/>
+		<until-successful maxRetries="5" doc:name="Until Successful" doc:id="cf7bff11-5f10-4d7a-b852-8f548a6be63e" millisBetweenRetries="10000">
+			<choice doc:name="Choice" doc:id="17560bbd-2650-4ea5-9398-17dcb7ba877d" >
+				<when expression='#[payload.state == "UploadComplete"]'>
+					<salesforce:get-query-job-results-bulk-api-v2 doc:name="Get query job results bulk api v 2" doc:id="0defd99a-d188-4be0-b3b5-dee0918d6793" config-ref="Salesforce_France" id="#[vars.JobId]"/>
+				</when>
+				<otherwise >
+					<raise-error doc:name="Raise error" doc:id="14f01b5f-1a9b-4be3-b3bd-09063a4fb771" type="APP:ANY"/>
+				</otherwise>
+			</choice>
+		</until-successful>
+		<ee:transform doc:name="map to json" doc:id="a9d3653d-ff42-4adc-91c4-d6dad1a20eee" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn="everywhere"
+---
+
+payload map {
+    "France_Account_Id__c": $.Id  default null, 
+	"Ownership" : $.Ownership default null,
+    "Description": $.Description default null,
+    "BillingCity": $.BillingCity default null,
+    "Rating": $.Rating default null,
+    "Website": $.Website default null,
+    "NumberOfEmployees": $.NumberOfEmployees as Number default null,
+    "type": $."type" default null,
+    "Name": $.Name default null,
+    "ShippingStreet": $.ShippingStreet default null,
+    "AccountNumber": $.AccountNumber default null,
+    "Industry": $.Industry default null,
+    "BillingStreet": $.BillingStreet default null,
+    "Phone": $.Phone default null,
+    "TickerSymbol": $.TickerSymbol default null,
+    "country__c": $.country__c default null,
+    "BillingState": $.BillingState default null,
+    "AnnualRevenue": $.AnnualRevenue as Number default null
+
+}  ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e8c120a8-41d0-49ed-b135-b131a62ceabc" type="SALESFORCE:CONNECTIVITY">
+				<logger level="INFO" doc:name="Logger" doc:id="2c851461-d6a0-4172-bc66-3c7265c6f669" message='#[error.description]'/>
+				<ee:transform doc:name="Transform Message" doc:id="838eca7d-02a1-451d-b673-cb628c5aeed6" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	errorTimestamp: now() as String { format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ" },
+	errorDescription: 'Connection not established.',
+	errorType: 'SALESFORCE:CONNECTIVITY',
+	errorSeverity: 'MEDIUM',
+	nativeError: {
+		description: error.description,
+		detailedDescription: error.detailedDescription,
+		errorType: error.errorType,
+		
+		errorMessage: error.errorMessage,
+		childErrors: error.childErrors
+	}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="79432f5e-79f2-4bfc-ba27-6fb1c22b9e18" type="SALESFORCE:INVALID_INPUT">
+				<logger level="INFO" doc:name="Logger" doc:id="0f43e916-bdab-4ef8-bb09-32504e8a2332" message="#[error.description]"/>
+				<ee:transform doc:name="Transform Message" doc:id="07ecb59d-2dbe-4bb4-a492-8bd5fdb6b08f" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	errorTimestamp: now() as String { format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ" },
+	errorDescription: 'INVALID INPUT',
+	errorType: 'SALESFORCE:INVALID_INPUT',
+	errorSeverity: 'MEDIUM',
+	nativeError: {
+		description: error.description,
+		detailedDescription: error.detailedDescription,
+		errorType: error.errorType,
+		
+		errorMessage: error.errorMessage,
+		childErrors: error.childErrors
+	}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8409fcda-eb47-43ee-a663-9a7bf7cd3bd2" type="ANY">
+				<logger level="INFO" doc:name="Logger" doc:id="592a2cfa-2680-43f4-8d0a-6d73c9b60073" message="#[error.description]"/>
+				<ee:transform doc:name="Transform Message" doc:id="588466b3-125f-4fe7-8941-7c936b0201ad" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	errorTimestamp: now() as String { format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ" },
+	nativeError: {
+		description: error.description,
+		detailedDescription: error.detailedDescription,
+		errorType: error.errorType,
+		
+		errorMessage: error.errorMessage,
+		childErrors: error.childErrors
+	}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

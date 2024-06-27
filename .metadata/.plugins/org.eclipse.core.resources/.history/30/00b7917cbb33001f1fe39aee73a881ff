@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="put-accountsFlow" doc:id="227400e3-d208-4b0d-8488-d998bac0ecdd" >
+		<!-- [STUDIO:"Listener"]<http:listener doc:name="Listener" doc:id="f39e932a-b03c-43fa-b24a-87cc836bd1ad" config-ref="sf-operations-papi-httpListenerConfig" path="/putaccounts"/> [STUDIO] -->
+		<ee:transform doc:name="map Payload" doc:id="75ac16fd-0e25-4a07-9190-6e5606fbb196">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json skipNullOn="everywhere"
+---
+
+payload map {
+    "France_Account_Id__c": $.Id  default " ", 
+	"Ownership" : $.Ownership default "",
+    "Description": $.Description default "",
+    "BillingCity": $.BillingCity default "",
+    "Rating": $.Rating default "",
+    "Website": $.Website default "",
+    "NumberOfEmployees": $.NumberOfEmployees as Number default "",
+    "type": $."type" default "",
+    "Name": $.Name default "",
+    "ShippingStreet": $.ShippingStreet default "",
+    "AccountNumber": $.AccountNumber default "",
+    "Industry": $.Industry default "",
+    "BillingStreet": $.BillingStreet default "",
+    "Phone": $.Phone default "",
+    "TickerSymbol": $.TickerSymbol default "",
+    "country__c": $.country__c default "",
+    "BillingState": $.BillingState default "",
+    "AnnualRevenue": $.AnnualRevenue as Number default ""
+
+}  ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="PUT" doc:name="put salesforce sapi : /accounts" doc:id="1fbcd646-2f70-4761-8799-75da0bdb1e44" config-ref="HTTP_Request_configuration" path="/api/accounts" responseTimeout="100000000" sendCorrelationId="ALWAYS" correlationId="#[correlationId]"/>
+	</flow>
+</mule>

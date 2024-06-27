@@ -1,0 +1,18 @@
+# common properties
+
+resources:
+  http:
+    api:
+      listener:
+        host: "0.0.0.0"
+        port: "8081"
+        
+# Any call to a remote service can receive parameters here.
+salesforce:
+  ConsumerKey: "![f+pV/Ia8ymIFbQcPzqIn2PuveFI5NTH/hWxj/MnZASL8/+rDcbObeICItwqtgfHkdr+iZCate46beXahXbXv8IMSrVAl+YDF0gEWzUKPZAAICf/nuHI8X0N7hap3jJOh]"
+  KeyStore: "cert/00Daj000007NQPS.jks"
+  StorePassword: "![mEU6aP9ley9Lv9sleMWT/Q==]"    
+  CertificateAlias: "![USN5faAofI+JAXd7JucRUA==]"
+  Principal: "![3gKnQDE8gEJ7P5NPZLaLStOpNQiHBWHhFiVrZ35GxVA=]"
+  TokenEndpoint: "https://login.salesforce.com/services/oauth2/token"
+

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+
+	<error-handler name="api-global-error-handler"
+		doc:id="087143e1-bdf1-4f3e-93b1-252009779683">
+
+		<!-- APIKit router related exceptions -->
+		<on-error-continue type="APIKIT:BAD_REQUEST"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="03dcec7c-e7c1-4b64-9045-7add9d8a80a6">
+			<set-variable value="#[400]" doc:name="Set the HTTP Status - 400"
+				doc:id="4bc663c7-6ea8-41b8-b63c-51bbba02dff7" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="f6b34364-7787-4bec-baf8-cbb379cf890b" name="frk-buildAPIException"/>
+			<flow-ref doc:name="frk-handleAPIException" doc:id="909ca783-b154-461d-9ca3-fff1e91b0f91" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="APIKIT:METHOD_NOT_ALLOWED"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="36b6dfc4-2ab4-4d88-af98-dcfbd3937204">
+			<set-variable value="#[405]" doc:name="Set the HTTP Status - 405"
+				doc:id="0dda69b5-8133-41e7-9c8d-0c77fbd404aa" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="90b8a284-cbed-44d6-acd6-d0ecf96749d8" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="a7f17957-ed47-4aad-bc2f-83876c619569" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="APIKIT:NOT_ACCEPTABLE"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="6920b57e-7337-4944-ab3f-a6f95ddd6e8b">
+			<set-variable value="#[406]" doc:name="Set the HTTP Status - 406"
+				doc:id="6e0e1b92-d938-4279-b792-483cbee9f1df" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="88c4f4cb-7fbe-4b5a-bdde-4010c00c360e" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="03fa349b-7b13-4858-a810-bdec75b66ec9" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="APIKIT:NOT_FOUND"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="a8570d0e-02b6-4a00-af8c-5dc82410525c">
+			<set-variable value="#[404]" doc:name="Set the HTTP Status - 404"
+				doc:id="25f334fd-5dd0-4c5b-a10e-9a9c5b6e2849" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="cca22442-8edd-4667-a34c-951061b739a7" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="c7495b1e-8c80-4499-8831-ea3e7b52adf5" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="APIKIT:UNSUPPORTED_MEDIA_TYPE"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="15b3ff98-c943-4ed9-a19f-d60ff6b16a2b">
+			<set-variable value="#[415]" doc:name="Set the HTTP Status - 415"
+				doc:id="197e8c33-e84f-41fa-bc0d-1308f8a0761b" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="92e599b8-d280-4d81-8e07-41434efc6868" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="b07af490-7817-4230-92f3-7a46c24ba239" name="frk-handleAPIException" />
+		</on-error-continue>
+
+		<!-- HTTP Requster Related error handling -->
+		<on-error-continue type="HTTP:BAD_REQUEST"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="3cd08787-e776-49bd-b749-916d599e95f1">
+			<set-variable value="#[400]" doc:name="Set the HTTP Status - 400"
+				doc:id="2c80ea4c-6903-42b5-bca8-235785fef462" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="e41abd85-684f-4831-bc87-4demo817d0d663" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="47c1ce52-0103-4077-984f-636674b8185a" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="HTTP:CLIENT_SECURITY"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="8a22469d-fb60-4328-872b-adcb5ddc7c62">
+			<set-variable value="#[401]" doc:name="Set the HTTP Status - 401"
+				doc:id="6b801230-38e9-4ea2-a614-e00f642da1ca" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="c0aa4896-b608-4333-a323-a13105ccddf7" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="abb3fead-d86b-4646-bfd1-2c2e4dcfac97" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="HTTP:FORBIDDEN"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="7dd36838-a22a-4584-a26f-41906d393f92">
+			<set-variable value="#[403]" doc:name="Set the HTTP Status - 403"
+				doc:id="b235f87a-ba2a-45bd-9727-baa7a220bfbd" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="6b31085d-cb2f-4592-86d8-00a4d09466ca" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="e1f53664-c7demo-4019-9c14-87f5069fdb70" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="HTTP:METHOD_NOT_ALLOWED"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="63622585-846c-4358-8334-fe347ed4c280">
+			<set-variable value="#[405]" doc:name="Set the HTTP Status - 405"
+				doc:id="be885fd9-9476-4028-aa59-2bffcdac3095" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="0299bdd2-d126-4257-b072-81463d29demo6d" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="fc750c67-69be-4aac-b826-8a9a0862ac5a" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="9c995621-1acb-4190-9194-3b6ca3c9b6d2" type="HTTP:NOT_ACCEPTABLE" >
+			<set-variable value="#[406]" doc:name="Set the HTTP Status - 406" doc:id="0c729e31-c085-4b87-a58d-a0db7f875e50" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="5ccc19c8-1cdc-4685-9f19-8fd54bb9dc33" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="11bc31d2-a2d0-40bc-9184-47f5407f7ddd" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="HTTP:NOT_FOUND"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="7d5276b8-0f8b-41eb-88d4-ab37032762b5">
+			<set-variable value="#[404]" doc:name="Set the HTTP Status - 404"
+				doc:id="1539cc00-10d3-4fed-b8e5-ae5f67220ac7" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="b93e5a8e-9248-4dce-a670-f4c776fcb02d" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="06875cce-0053-4111-89d6-2868df72bee1" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="HTTP:PARSING"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="fd059136-eb61-4b1c-95a3-2644aecaefe2">
+			<set-variable value="#[400]" doc:name="Set the HTTP Status - 400"
+				doc:id="791fc8b6-416b-4fa3-b3b3-120f9ddc99ec" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="b046b0e2-5fc5-4b12-b6a5-c5b1c168831d" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="f133b8ea-3e43-4b77-a3b9-1eebc75ee509" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="HTTP:SECURITY"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="32cf749b-cf9b-4420-a2e0-6c8126428fa5">
+			<set-variable value="#[401]" doc:name="Set the HTTP Status - 401"
+				doc:id="8e953e27-c104-4cf0-9010-4c0fe25e7e43" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="f5da9667-6c75-401c-b523-790535150640" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="f0c4f5d9-67b4-474d-bb6c-539e0c7b3df4" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="HTTP:TOO_MANY_REQUESTS"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="c7e56ace-7687-425a-ae6a-04bab6d362b3">
+			<set-variable value="#[429]" doc:name="Set the HTTP Status - 429"
+				doc:id="16571225-5b3c-4a49-9f02-07f5c4624ca3" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="911462ec-eb67-4bd2-a168-38d9fb25fa64" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="1c01c316-0d18-408b-90c3-95f32e982006" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="HTTP:UNAUTHORIZED"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="d5f6e4c9-fea9-431f-87ae-4e5fc8a5208d">
+			<set-variable value="#[403]" doc:name="Set the HTTP Status - 403"
+				doc:id="b807c17f-0e84-4b30-92fd-74ba279f6803" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="565c75b4-afe0-4593-a3cd-dad829054072" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="50ccbcc6-bba5-43b7-9f5e-17dff3faf126" name="frk-handleAPIException" />
+		</on-error-continue>
+		<on-error-continue type="HTTP:UNSUPPORTED_MEDIA_TYPE"
+			enableNotifications="true" logException="true" doc:name="On Error Continue"
+			doc:id="91fb6467-a0ab-401a-902c-ea12fd01e98c">
+			<set-variable value="#[415]" doc:name="Set the HTTP Status - 415"
+				doc:id="ddemo903c8-1f51-477f-96f0-ed280c7a8e4e" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="fee6da61-7011-4e3b-be54-327ab7320b5b" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="a00a72d7-7f8c-4228-97ef-ce94508da30a" name="frk-handleAPIException" />
+		</on-error-continue>
+
+		<!-- Streaming related exception -->
+
+		<!-- Generic CONNECTIVITY Related Exception handling start. Order matters -->
+		<!-- Generic CONNECTIVITY Exception handling end -->
+
+
+		<!-- If none of the above matches then handle a the exception using generic 
+			handler -->
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="618f9b05-31c6-41c3-a4b5-3025168ad0e1" type="ANY" >
+			<set-variable value="#[500]" doc:name="Set HTTP Status - 500" doc:id="37fb8788-4f47-4e9c-bd76-1cf771d6d62b" variableName="httpStatus" />
+			<flow-ref doc:name="frk-buildAPIException" doc:id="63b5c51c-24fe-47af-a6d3-8621ae933ce2" name="frk-buildAPIException" />
+			<flow-ref doc:name="frk-handleAPIException" doc:id="5ed6253f-9302-4655-948e-3d99ed91e398" name="frk-handleAPIException" />
+		</on-error-continue>
+
+
+	</error-handler>
+
+	<sub-flow name="frk-buildAPIException" doc:id="32cbe1ee-e885-4a66-8618-c78abe0824ca" >
+		<ee:transform doc:name="build frk_exception" doc:id="abaa07f5-1ae8-41b5-9794-509eb7293f42" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="frk_exception" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	errorTimestamp: now() as String { format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ" },
+	errorDescription: "API exception: " ++ error.errorType.identifier as String default "unknown",
+	errorCode: 'API-HTTP-' ++ vars.httpStatus as String,
+	errorType: 'T',
+	errorSeverity: 'MEDIUM',
+	nativeError: 
+	{
+		description: error.description,
+		detailedDescription: error.detailedDescription,
+		errorType: error.errorType,
+		
+		errorMessage: error.errorMessage,
+		childErrors: error.childErrors
+	}
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="frk-handleAPIException" doc:id="cde75e8e-972b-475f-8c1e-65ad0714d5eb" >
+		<flow-ref doc:name="frk-auditError" doc:id="5d85084d-77e8-40cb-b59e-b6092a08c644" name="frk-auditError" />
+		<ee:transform doc:name="build API Error Reply" doc:id="40e80bc4-7134-4a62-a803-9c95e229ea78" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+error: {
+	errorCorrelationId: vars.frk_tracking.correlationId,
+	errorCode: if(vars.frk_exception.errorCode?) vars.frk_exception.errorCode else 'undefined',
+	errorTimestamp: if(vars.frk_exception.errorTimestamp?) vars.frk_exception.errorTimestamp else (now() as String { format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ" }), 
+	errorDescription: if(vars.frk_exception.errorDescription?) vars.frk_exception.errorDescription else 'undefined',
+	(
+		reference:
+		{
+			"http-method": vars.frk_messageProperties.attributes.method,
+			"request-uri": vars.frk_messageProperties.attributes.requestUri
+		}
+	) if (vars.frk_messageProperties.attributes.requestUri?)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<error-handler name="api-local-error-handler" doc:id="db116f9e-1869-4991-9a46-b455b0befbc1" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="5afa67c5-f586-49ab-87c1-aad0241e4aef" type="HTTP:CONNECTIVITY, HTTP:NOT_FOUND, HTTP:SERVICE_UNAVAILABLE, HTTP:TIMEOUT, HTTP:TOO_MANY_REQUESTS," >
+			<ee:transform doc:name="frkException FRK_SYSTEM_NOT_AVAILABLE'" doc:id="cfb35d6a-eb84-4ae0-8618-5cfad1b251e9" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="frk_exception" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	errorTimestamp: now() as String { format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ" },
+	errorDescription: 'Unable to access remote system.',
+	errorCode: 'FRK_SYSTEM_NOT_AVAILABLE',
+	errorType: 'T',
+	errorSeverity: 'MEDIUM',
+	nativeError: 
+	{
+		description: error.description,
+		detailedDescription: error.detailedDescription,
+		errorType: error.errorType,
+		errorMessage: error.errorMessage,
+		childErrors: error.childErrors
+	},
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<raise-error doc:name="Raise frk_Exception" doc:id="a199694d-bb3d-4ea8-a9d7-ca918bb91cae" type="FRK:EXCEPTION" description="Raise FRK:EXCEPTION" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="92db3ccc-27a3-4170-8423-c3f6bb9c3682" type="HTTP:INTERNAL_SERVER_ERROR" when='error.errorMessage.payload.error.errorCorrelationId == null or error.errorMessage.payload.error.errorDescription == "API exception: UNKNOWN"' >
+			<choice doc:name="Choice" doc:id="3235e904-b50b-4ce5-834d-2a7dd38fc2d6" >
+				<when expression='#[error.errorMessage.payload.error.errorCorrelationId == null or error.errorMessage.payload.error.errorDescription == "API exception: UNKNOWN"]' >
+					<ee:transform doc:name="frkException FRK_SYSTEM_NOT_AVAILABLE'" doc:id="da1e61b4-f57e-4f15-86b3-51fe0e957a59" >
+						<ee:message />
+						<ee:variables >
+							<ee:set-variable variableName="frk_exception" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	errorTimestamp: now() as String { format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ" },
+	errorDescription: 'Unable to access remote system (HTTP 500 from APIKit) - API may still be in start-up phase...',
+	errorCode: 'FRK_SYSTEM_NOT_AVAILABLE',
+	errorType: 'T',
+	errorSeverity: 'MEDIUM',
+	nativeError: 
+	{
+		description: error.description,
+		detailedDescription: error.detailedDescription,
+		errorType: error.errorType,
+		errorMessage: error.errorMessage,
+		childErrors: error.childErrors
+	},
+}]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+					<raise-error doc:name="Raise frk_Exception" doc:id="8330450a-d8c6-4865-9c1d-be102f826596" type="FRK:EXCEPTION" description="Raise FRK:EXCEPTION" />
+				</when>
+			</choice>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b7d02399-ce26-461e-be68-d6fb287db7b8" type="FRK:EXCEPTION" >
+			<raise-error doc:name="Raise frk_Exception" doc:id="07494958-6dda-40aa-9be6-37b684ce4c40" type="FRK:EXCEPTION" description="Raise FRK:EXCEPTION" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="03237c6a-55a5-416d-bc98-10adc7785afc" type="ANY" >
+			<ee:transform doc:name="frkException FRK_UNEXPECTED_EXCEPTION" doc:id="9d8d9388-5611-4a04-a8c1-a56a8c83f9cb" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="frk_exception" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	errorTimestamp: now() as String { format: "yyyy-MM-dd'T'HH:mm:ss.SSSZ" },
+	errorDescription: 'Unexpected exception while calling target API - check native Error description.',
+	errorCode: 'FRK_UNEXPECTED_EXCEPTION',
+	errorType: 'T',
+	errorSeverity: 'MEDIUM',
+	nativeError: 
+	{
+		description: error.description,
+		detailedDescription: error.detailedDescription,
+		errorType: error.errorType,	
+		errorMessage: error.errorMessage,
+		childErrors: error.childErrors
+	}
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<raise-error doc:name="Raise frk_Exception" doc:id="7390f668-5a7c-4f79-931e-072caef678d1" type="FRK:EXCEPTION" description="Raise FRK:EXCEPTION" />
+		</on-error-propagate>
+	</error-handler>
+
+</mule>

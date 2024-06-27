@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-documentation>
+    <configs>
+        <config name="config">
+            <description><![CDATA[Default configuration]]></description>
+            <parameters>
+                <parameter name="apiDefinition">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="name">
+                    <description><![CDATA[The identifier of this element used to reference it in other components]]></description>
+                </parameter>
+            </parameters>
+        </config>
+    </configs>
+    <connections/>
+    <extension name="APIKit for OData">
+        <description><![CDATA[OData Extension main class.]]></description>
+        <parameters/>
+    </extension>
+    <operations>
+        <operation name="route">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="content">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="method">
+                    <description><![CDATA[HTTP request method name.]]></description>
+                </parameter>
+                <parameter name="maskedRequestPath">
+                    <description><![CDATA[OData request path, relative to listener.]]></description>
+                </parameter>
+                <parameter name="scheme">
+                    <description><![CDATA[HTTP request scheme.]]></description>
+                </parameter>
+                <parameter name="host">
+                    <description><![CDATA[Request host.]]></description>
+                </parameter>
+                <parameter name="listenerPath">
+                    <description><![CDATA[Listener path, ending with "*".]]></description>
+                </parameter>
+                <parameter name="httpHeaders">
+                    <description><![CDATA[HTTP request headers.]]></description>
+                </parameter>
+                <parameter name="queryString">
+                    <description><![CDATA[HTTP query string.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="serializeEntity">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="inboundContent">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="method">
+                    <description><![CDATA[HTTP Method.]]></description>
+                </parameter>
+                <parameter name="path">
+                    <description><![CDATA[Path to Entity Type.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="serializeEntityCollection">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="inboundContent">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="method">
+                    <description><![CDATA[HTTP Method.]]></description>
+                </parameter>
+                <parameter name="path">
+                    <description><![CDATA[Path to Entity Type.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+        <operation name="transformToSqlSelect">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="entitySetName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="pageSize">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="entityTypeName">
+                    <description><![CDATA[Entity type name specified by the Entity Data Model.]]></description>
+                </parameter>
+                <parameter name="entityTypeFields">
+                    <description><![CDATA[List of property fields from the Entity type.]]></description>
+                </parameter>
+                <parameter name="entityTypeKeys">
+                    <description><![CDATA[Map of entity key names and values.]]></description>
+                </parameter>
+                <parameter name="systemQueryOptions">
+                    <description><![CDATA[System Query Options map. The grammar and syntax rules for system query options are defined in [OData-ABNF], in order to simplify usability we remove initial dollar sign to avoid escaping withing dataweave, in example to access System Query Option $skip user should use the following expresion #[attributes.systemQueryOptions.'skip']]]></description>
+                </parameter>
+                <parameter name="searchTransformationEnabled">
+                    <description><![CDATA[Enables $search transformation to WHERE clause.]]></description>
+                </parameter>
+                <parameter name="strictSearchTermMatch">
+                    <description><![CDATA[Enables full term match for $search. If enabled, terms in WHERE clause are not enclosed between '%'.]]></description>
+                </parameter>
+                <parameter name="target">
+                    <description><![CDATA[The name of a variable on which the operation's output will be placed]]></description>
+                </parameter>
+                <parameter name="targetValue">
+                    <description><![CDATA[An expression that will be evaluated against the operation's output and the outcome of that expression will be stored in the target variable]]></description>
+                </parameter>
+            </parameters>
+        </operation>
+    </operations>
+    <sources>
+        <source name="RequestEntityCollectionListener">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="method">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="path">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="collectionSuccessResponse">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </source>
+        <source name="RequestEntityListener">
+            <description><![CDATA[]]></description>
+            <parameters>
+                <parameter name="outputMimeType">
+                    <description><![CDATA[The mime type of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="outputEncoding">
+                    <description><![CDATA[The encoding of the payload that this operation outputs.]]></description>
+                </parameter>
+                <parameter name="config-ref">
+                    <description><![CDATA[The name of the configuration to be used to execute this component]]></description>
+                </parameter>
+                <parameter name="primaryNodeOnly">
+                    <description><![CDATA[Whether this source should only be executed on the primary node when runnning in Cluster]]></description>
+                </parameter>
+                <parameter name="streamingStrategy">
+                    <description><![CDATA[Configure if repeatable streams should be used and their behaviour]]></description>
+                </parameter>
+                <parameter name="redeliveryPolicy">
+                    <description><![CDATA[Defines a policy for processing the redelivery of the same message]]></description>
+                </parameter>
+                <parameter name="method">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="path">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="successResponse">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </source>
+    </sources>
+    <types>
+        <type name="org.mule.extension.api.routing.ListenerRequestAttributes">
+            <description><![CDATA[Set of request attributes targeted for the "On Entity Request" and "On Entity Collection Request" listener.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="entitySetName">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="odataHttpAttributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="odataRequestAttributes">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.api.routing.RouteOutputAttributes">
+            <description><![CDATA[Output attributes resulting from the router and returned back to the HTTP listener.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="headers">
+                    <description><![CDATA[]]></description>
+                </parameter>
+                <parameter name="statusCode">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.api.serialization.CollectionSuccessResponse">
+            <description><![CDATA[Identifies a success response of entity collections which might include server side pagination parameters.
+
+ @since 1.0]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.api.serialization.EntityCollectionSuccessResponse">
+            <description><![CDATA[Parameters used by the module to serialize a success response of entity collections.
+ <p> The response is composed by a content body and a set of optional parameters to configure the serialization of the response.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="bodyContent">
+                    <description><![CDATA[The body of the response message.]]></description>
+                </parameter>
+                <parameter name="serializationParameters">
+                    <description><![CDATA[Set of serialization-related parameters.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.api.serialization.EntitySuccessResponse">
+            <description><![CDATA[Parameters used by the module to serialize a success response of entities.
+ <p> The response is composed by a content body only.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="bodyContent">
+                    <description><![CDATA[The body of the response message.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.api.serialization.RawEntityCollectionSuccessResponse">
+            <description><![CDATA[Raw content of a success response that represents an entity collection.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="rawContent">
+                    <description><![CDATA[The raw response message.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.api.serialization.RawEntitySuccessResponse">
+            <description><![CDATA[Raw content of a success response that represents a single entity.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="rawContent">
+                    <description><![CDATA[The raw response content of the response message.]]></description>
+                </parameter>
+            </parameters>
+        </type>
+        <type name="org.mule.extension.api.serialization.SuccessResponse">
+            <description><![CDATA[Identifies a success response that is composed by a content and optional parameters.
+
+ @since 1.0]]></description>
+            <parameters/>
+        </type>
+        <type name="org.mule.extension.api.transformation.SQLTransformerOutputAttributes">
+            <description><![CDATA[Output attributes resulting from the execution of the SQL transformation.
+
+ @since 1.0]]></description>
+            <parameters>
+                <parameter name="queryParameters">
+                    <description><![CDATA[]]></description>
+                </parameter>
+            </parameters>
+        </type>
+    </types>
+</extension-documentation>

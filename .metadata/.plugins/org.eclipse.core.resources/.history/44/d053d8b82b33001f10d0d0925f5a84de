@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="salesforce-france-sapiFlow" doc:id="4d7e316a-6164-44a6-9761-3662752b4a23" >
+		<http:listener doc:name="Listener" doc:id="e0d26ecd-a946-46fa-b140-6f033ab6dc49" config-ref="HTTP_Listener_config" path="/get-account-bulk"/>
+		<apikit:router doc:name="APIkit Router" doc:id="15db0066-e988-4670-afa6-9aa39df1b66c" config-ref="Salesforce-France-SAPI-Router"/>
+	</flow>
+	<flow name="salesforce-france-sapiFlow1" doc:id="832dc7d5-9aef-4637-ad17-378c35964e3c" >
+		<http:listener doc:name="Listener" doc:id="da8c5a06-7b64-4027-ba2a-2a3a90047e19" config-ref="HTTP_Listener_config" path="/console/*"/>
+		<apikit:console doc:name="APIkit Console" doc:id="d93a6357-8bfa-4403-94ba-63620dd58275" config-ref="Salesforce-France-SAPI-Router"/>
+	</flow>
+	<flow name="get:\accounts:salesforce-france-sapi-config" doc:id="8054c38b-af1b-4aa3-8dfe-e78927c29b1e" >
+		<logger level="INFO" doc:name="Logger" doc:id="ed56517f-26a0-4240-85c8-50d008334489" />
+		<flow-ref doc:name="get account bulk" doc:id="7dd24e08-42a6-44fc-a615-2bf9fb773181" name="get-account-bulkFlow"/>
+	</flow>
+</mule>
