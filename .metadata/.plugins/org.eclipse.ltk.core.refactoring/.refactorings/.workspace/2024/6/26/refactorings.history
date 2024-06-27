@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;enrichedsale-sale-details-xapi&apos;" deleteContents="true" description="Delete resource &apos;enrichedsale-sale-details-xapi&apos;" element1="/enrichedsale-sale-details-xapi" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1719529851118"/>&#x0A;<refactoring comment="Delete resource &apos;rcu-customerIdentity-customer-sapi&apos;" deleteContents="true" description="Delete resource &apos;rcu-customerIdentity-customer-sapi&apos;" element1="/rcu-customerIdentity-customer-sapi" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1719529858050"/>
-</session>

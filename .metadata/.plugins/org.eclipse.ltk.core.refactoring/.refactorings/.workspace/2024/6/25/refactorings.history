@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename Java project &apos;Salesforce-Global-SAPI2&apos; to &apos;salesforce-global-sapi&apos;&#x0A;- Original element: &apos;Salesforce-Global-SAPI2&apos;&#x0A;- Renamed element: &apos;Salesforce-Global-SAPI2&apos;&#x0A;- Update references to refactored element" description="Rename Java project &apos;Salesforce-Global-SAPI2&apos;" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=Salesforce-Global-SAPI2" name="salesforce-global-sapi" references="true" stamp="1718567523550" version="1.0"/>
-</session>

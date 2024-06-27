@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;get-api-status&apos; to &apos;usergateway-xapi/src/main/mule&apos;&#x0A;- Original project: &apos;enrichedsale-sale-details-xapi&apos;&#x0A;- Destination element: &apos;usergateway-xapi/src/main/mule&apos;&#x0A;- Original element: &apos;get-api-status&apos;" description="Copy folder" destination="=usergateway-xapi/src\/main\/mule" element1="src/main/mule/api/sf-sale-enrichedsale-xapi/implementation/get-api-status" files="0" flags="589830" folders="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1717034228617" units="0" version="1.0"/>
-</session>
