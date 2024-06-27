@@ -1,4 +1,0 @@
-%dw 2.0
-
-type auto_2fb30ce0_c8bd_4716_8aa2_aefe4a16a016_Output_Variables_sizeOfPayload = Any
-

@@ -1,4 +1,0 @@
-%dw 2.0
-
-type auto_656f3672_4910_4c4c_b214_1c940e6794fd_Output_Payload = Array<{  name?: String,   industry?: String,   id?: String,   "type"?: String,   _?: Any}>
-
